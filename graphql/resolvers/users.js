@@ -9,7 +9,7 @@ const {
 const { SECRET_KEY } = require('../../config');
 const User = require('../../models/User');
 
-function generateToken(user) {
+const generateToken = (user) => {
   return jwt.sign(
     {
       id: user.id,
