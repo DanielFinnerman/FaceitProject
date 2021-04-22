@@ -5,7 +5,7 @@ const dotenv = require('dotenv');
 const resolvers = require('./graphql/resolvers');
 const typeDefs = require('./graphql/typeDefs');
 
-const port = 3000;
+const port = 3001;
 
 dotenv.config();
 
