@@ -17,6 +17,8 @@ const MenuBar = () => {
     <Menu pointing secondary size="massive" color="orange">
       <Menu.Item name={user.username} active as={Link} to="/" />
 
+      <Menu.Item name="Stats" as={Link} to="/stats" />
+
       <Menu.Menu position="right">
         <Menu.Item name="logout" onClick={logout} />
       </Menu.Menu>
