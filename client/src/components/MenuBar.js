@@ -14,17 +14,30 @@ const MenuBar = () => {
   const handleItemClick = (e, { name }) => setActiveItem(name);
 
   const menuBar = user ? ( //if user logged in, show new menu bar
-    <Menu pointing secondary size="massive" color="orange">
-      <Menu.Item name={user.username} active as={Link} to="/" />
+    <Menu pointing inverted secondary size="massive">
+      <Menu.Item
+        name="home"
+        active={activeItem === 'home'}
+        onClick={handleItemClick}
+        as={Link}
+        to="/"
+      />
 
-      <Menu.Item name="Stats" as={Link} to="/stats" />
+      <Menu.Item
+        name="stats"
+        active={activeItem === 'stats'}
+        onClick={handleItemClick}
+        as={Link}
+        to="/stats"
+      />
 
       <Menu.Menu position="right">
+        <Menu.Item name={user.username} active as={Link} to="/" />
         <Menu.Item name="logout" onClick={logout} />
       </Menu.Menu>
     </Menu>
   ) : ( // this menu shown to not-logged in users
-    <Menu pointing secondary size="massive" color="orange">
+    <Menu pointing inverted secondary size="massive">
       <Menu.Item
         name="home"
         active={activeItem === 'home'}

@@ -5,21 +5,26 @@ import { Button, Confirm, Icon } from 'semantic-ui-react';
 
 import { FETCH_POSTS_QUERY } from '../util/graphql';
 
-const DeleteButton = ({ postId, callback }) => {
+const DeleteButton = ({ postId, commentId, callback }) => {
   const [confirmOpen, setConfirmOpen] = useState(false);
 
-  const [deletePost] = useMutation(DELETE_POST_MUTATION, { 
+  const mutation = commentId ? DELETE_COMMENT_MUTATION : DELETE_POST_MUTATION;
+
+  const [deletePostOrMutation] = useMutation(mutation, {
     update(proxy) {
-      setConfirmOpen(false); //ask for confirm to delete false
-      const data = proxy.readQuery({ //delete post from cache
-        query: FETCH_POSTS_QUERY
-      });
-      data.getPosts = data.getPosts.filter((p) => p.id !== postId); //get all posts with not deleted post id
-      proxy.writeQuery({ query: FETCH_POSTS_QUERY, data });
+      setConfirmOpen(false);
+      if (!commentId) {
+        const data = proxy.readQuery({ //delete post from cache
+          query: FETCH_POSTS_QUERY
+        });
+        data.getPosts = data.getPosts.filter((p) => p.id !== postId); //get all posts with not deleted post id
+        proxy.writeQuery({ query: FETCH_POSTS_QUERY, data });
+      }
       if (callback) callback(); //no callback from postcard, do here
     },
     variables: {
-      postId
+      postId,
+      commentId
     }
   });
   return (
@@ -35,7 +40,7 @@ const DeleteButton = ({ postId, callback }) => {
       <Confirm
         open={confirmOpen}
         onCancel={() => setConfirmOpen(false)}
-        onConfirm={deletePost}
+        onConfirm={deletePostOrMutation}
       />
     </>
   );
@@ -44,6 +49,21 @@ const DeleteButton = ({ postId, callback }) => {
 const DELETE_POST_MUTATION = gql`
   mutation deletePost($postId: ID!) {
     deletePost(postId: $postId)
+  }
+`;
+
+const DELETE_COMMENT_MUTATION = gql`
+  mutation deleteComment($postId: ID!, $commentId: ID!) {
+    deleteComment(postId: $postId, commentId: $commentId) {
+      id
+      comments {
+        id
+        username
+        createdAt
+        body
+      }
+      commentCount
+    }
   }
 `;
 
