@@ -14,3 +14,9 @@
 .ui.red.buttons .button:focus {
   background-color: #db2828;
 }
+
+.ui.inverted.segment,
+.ui.primary.inverted.segment {
+    background: #1564b3;
+    color: rgba(192, 26, 26, 0.9);
+}
