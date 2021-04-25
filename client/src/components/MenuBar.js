@@ -46,6 +46,14 @@ const MenuBar = () => {
         to="/"
       />
 
+<Menu.Item
+        name="stats"
+        active={activeItem === 'stats'}
+        onClick={handleItemClick}
+        as={Link}
+        to="/stats"
+      />
+
       <Menu.Menu position="right">
         <Menu.Item
           name="login"
