@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, Form, Image } from 'semantic-ui-react'
+import { Button, Card, Form, Image } from 'semantic-ui-react'
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 
@@ -83,7 +83,7 @@ return(
     <h1> Search for Faceit user </h1>
     <div>
     <Form width= "2px" inverted onSubmit={handleSubmit}>
-    <Form.Field>
+    <div className="ui action input fluid">
       <input 
       type = "text"
       required
@@ -92,14 +92,15 @@ return(
       onKeyDown={handleKeyDown}
       placeholder='Search...'
       />
-    </Form.Field>
-    <Form.Button icon='search'
-    onClick={() => { getData(); setFetched(true);}} />
+    <Button icon='search' color="orange"
+    onClick={() => { getData(); setFetched(true);}}>
+    </Button>
+    </div>
   </Form>
     </div>
     { error ? ( 
       <div><h2>{ error }</h2></div>) : (<div>{isFetched ? (
-        <Card className="segment centered" color='orange'>
+        <Card className="segment centered" color='orange' style={{marginTop: 30}}>
         <Image src={imgSrc} wrapped ui={false} />
         <Card.Content>
           <Card.Header>{nick}
@@ -112,7 +113,8 @@ return(
         floated='right'
         size='mini'
         src={playerLvl}
-      /></Card.Header>
+        />
+      </Card.Header>
           <Card.Meta>
           </Card.Meta>
           <Card.Description>
@@ -126,20 +128,21 @@ return(
           </Card.Description>
         </Card.Content>
         <Card.Content extra>
-        <a href={steamId} target="_blank" rel="noreferrer">
-        <Image
-        floated='left'
-        size='mini'
-        src="./images/steam_icon.png"
-        />
-        </a>
-        <a href={faceitLink} target="_blank" rel="noreferrer">
-        <Image
-        floated='left'
-        size='mini'
-        src="./images/faceit_icon.png"
-        />
-        </a>
+          <p floated='left'>Links: </p>
+          <a href={steamId} target="_blank" rel="noreferrer">
+          <Image
+          floated='left'
+          size='mini'
+          src="./images/steam_icon.png"
+          />
+          </a>
+          <a href={faceitLink} target="_blank" rel="noreferrer">
+          <Image
+          floated='left'
+          size='mini'
+          src="./images/faceit_icon.png"
+          />
+          </a>
         </Card.Content>
       </Card>
       ) : (
