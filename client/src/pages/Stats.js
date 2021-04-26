@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { Button, Card, Image } from 'semantic-ui-react'
+import { Card, Form, Image } from 'semantic-ui-react'
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 
 const apiUrl = 'https://open.faceit.com/data/v4/players?nickname=';
-//const apiKey = '54e301ca-a1fb-43ee-be0b-e4ca2c786b79';
 
 const Stats = () => {
 
@@ -15,23 +14,50 @@ const Stats = () => {
   const [playerLvl, setLvl] = useState('');
   const [kdRatio, setKD] = useState('');
   const [wlRatio, setWL] = useState('');
+  const [steamId, setSteamId] = useState('');
+  const [playerCountry, setCountry] = useState('');
+  const [faceitLink, setFaceitLink] = useState('');
+
+
+  const [userInput, setInput] = useState('');
+  const [error, setError] = useState(null);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  }
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      getData();
+      setFetched(true);
+    }
+  }
 
   const getData = async () => {
+    
   
-  const response = await fetch(apiUrl + 'dDaniii', {
+  const response = await fetch(apiUrl + userInput, {
     headers: {
         'accept': 'application/json',
         'Authorization': 'Bearer ' + API_KEY
     }
   });
 
+  if (response.status === 404) {
+    setError('Could not fetch requested user, check spelling');
+  } else {
+    setError(null)
+
   const data = await response.json();
   const id = data.player_id;
-  console.log(data);
+  //console.log(data);
   setNick(data.nickname);
   setImgSrc(data.avatar);
   setElo(data.games.csgo.faceit_elo);
-  setLvl(data.games.csgo.skill_level);
+  setLvl('https://faceitfinder.com/resources/ranks/skill_level_' + data.games.csgo.skill_level + '_lg.png');
+  setSteamId('https://steamcommunity.com/profiles/' + data.steam_id_64);
+  setCountry('https://faceitfinder.com/resources/flags/svg/' + data.country +'.svg');
+  setFaceitLink('https://www.faceit.com/en/players/' + data.nickname);
 
 
   const response2 = await fetch('https://open.faceit.com/data/v4/players/' + id + '/stats/csgo', {
@@ -49,19 +75,46 @@ const Stats = () => {
   setKD(kd_ratio);
   setWL(wl_ratio);
   
-
 }
+  }
   
 return(
   <div>
-      <Button icon='search'
-    onClick={() => { getData(); setFetched(!isFetched);}} />
-      {isFetched ? (
+    <h1> Search for Faceit user </h1>
+    <div>
+    <Form width= "2px" inverted onSubmit={handleSubmit}>
+    <Form.Field>
+      <input 
+      type = "text"
+      required
+      value = {userInput}
+      onChange={(e) => setInput(e.target.value)}
+      onKeyDown={handleKeyDown}
+      placeholder='Search...'
+      />
+    </Form.Field>
+    <Form.Button icon='search'
+    onClick={() => { getData(); setFetched(true);}} />
+  </Form>
+    </div>
+    { error ? ( 
+      <div><h2>{ error }</h2></div>) : (<div>{isFetched ? (
         <Card className="segment centered" color='orange'>
         <Image src={imgSrc} wrapped ui={false} />
         <Card.Content>
-          <Card.Header>{nick}</Card.Header>
-          <Card.Meta>Level: {playerLvl}</Card.Meta>
+          <Card.Header>{nick}
+          <Image
+          floated='right'
+          size='mini'
+          src={playerCountry}
+        />
+        <Image
+        floated='right'
+        size='mini'
+        src={playerLvl}
+      /></Card.Header>
+          <Card.Meta>
+          </Card.Meta>
           <Card.Description>
           Elo: {playerElo}
           </Card.Description>
@@ -73,14 +126,26 @@ return(
           </Card.Description>
         </Card.Content>
         <Card.Content extra>
-    ASd
+        <a href={steamId} target="_blank" rel="noreferrer">
+        <Image
+        floated='left'
+        size='mini'
+        src="./images/steam_icon.png"
+        />
+        </a>
+        <a href={faceitLink} target="_blank" rel="noreferrer">
+        <Image
+        floated='left'
+        size='mini'
+        src="./images/faceit_icon.png"
+        />
+        </a>
         </Card.Content>
       </Card>
       ) : (
         <div>
-          <h2> Search for user </h2>
         </div>
-      )}
+      )}</div>)}
     </div>
 );
 }
