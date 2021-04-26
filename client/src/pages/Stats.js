@@ -14,6 +14,10 @@ const Stats = () => {
   const [playerLvl, setLvl] = useState('');
   const [kdRatio, setKD] = useState('');
   const [wlRatio, setWL] = useState('');
+  const [steamId, setSteamId] = useState('');
+  const [playerCountry, setCountry] = useState('');
+  const [faceitLink, setFaceitLink] = useState('');
+
 
   const [userInput, setInput] = useState('');
   const [error, setError] = useState(null);
@@ -50,7 +54,10 @@ const Stats = () => {
   setNick(data.nickname);
   setImgSrc(data.avatar);
   setElo(data.games.csgo.faceit_elo);
-  setLvl(data.games.csgo.skill_level);
+  setLvl('https://faceitfinder.com/resources/ranks/skill_level_' + data.games.csgo.skill_level + '_lg.png');
+  setSteamId('https://steamcommunity.com/profiles/' + data.steam_id_64);
+  setCountry('https://faceitfinder.com/resources/flags/svg/' + data.country +'.svg');
+  setFaceitLink('https://www.faceit.com/en/players/' + data.nickname);
 
 
   const response2 = await fetch('https://open.faceit.com/data/v4/players/' + id + '/stats/csgo', {
@@ -95,8 +102,19 @@ return(
         <Card className="segment centered" color='orange'>
         <Image src={imgSrc} wrapped ui={false} />
         <Card.Content>
-          <Card.Header>{nick}</Card.Header>
-          <Card.Meta>Level: {playerLvl}</Card.Meta>
+          <Card.Header>{nick}
+          <Image
+          floated='right'
+          size='mini'
+          src={playerCountry}
+        />
+        <Image
+        floated='right'
+        size='mini'
+        src={playerLvl}
+      /></Card.Header>
+          <Card.Meta>
+          </Card.Meta>
           <Card.Description>
           Elo: {playerElo}
           </Card.Description>
@@ -108,7 +126,20 @@ return(
           </Card.Description>
         </Card.Content>
         <Card.Content extra>
-    ASd
+        <a href={steamId} target="_blank" rel="noreferrer">
+        <Image
+        floated='left'
+        size='mini'
+        src="./images/steam_icon.png"
+        />
+        </a>
+        <a href={faceitLink} target="_blank" rel="noreferrer">
+        <Image
+        floated='left'
+        size='mini'
+        src="./images/faceit_icon.png"
+        />
+        </a>
         </Card.Content>
       </Card>
       ) : (
