@@ -1,7 +1,7 @@
 # FaceitProject
 
 React application with GraphQL API integration using Express, Mongoose (MongoDB Atlas, Apollo Server and React Semantic UI).
-App alsp uses Faceit API to display stats of faceit.com users.
+App also uses [Faceit API](https://developers.faceit.com/docs/tools/data-api) to display stats of faceit.com users.
 
 Create blog posts, comment and like them. Display stats from faceit.com users.
 
@@ -10,7 +10,7 @@ Front end: https://faceit-blog.netlify.app/
 
 GraphQL in jelastic: https://faceit-blog.jelastic.metropolia.fi/
 
-Example queries: 
+Example GraphQL queries: 
 
 # User
 ### Register
@@ -69,3 +69,11 @@ query{
   }
 }
 ```
+
+## Example Stats page faceit.com fetch queries:
+```
+s1mple
+allu
+KRIMZ
+```
+
