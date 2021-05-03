@@ -1,9 +1,9 @@
 # FaceitProject
 
 React application with GraphQL API integration using Express, Mongoose (MongoDB Atlas, Apollo Server and React Semantic UI).
-App also uses [Faceit API](https://developers.faceit.com/docs/tools/data-api) to display stats of faceit.com users.
+App also uses [Faceit API](https://developers.faceit.com/docs/tools/data-api) to display stats of [Faceit.com](https://www.faceit.com/en) users.
 
-Create blog posts, comment and like them. Display stats from faceit.com users.
+Create blog posts, comment and like them. Display stats of [Faceit.com](https://www.faceit.com/en) users.
 
 Front end: https://faceit-blog.netlify.app/
 (might not always work as jelastic backend goes after not using for 5min)
