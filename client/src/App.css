@@ -20,3 +20,8 @@
     background: #1564b3;
     color: rgba(192, 26, 26, 0.9);
 }
+
+body {
+  background: linear-gradient(to bottom, #1C1C1C 13%, #FF6000 100%);
+  color:rgb(255, 255, 255);
+}
